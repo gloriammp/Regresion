@@ -1,5 +1,5 @@
 ---
-title: "Guía 1"
+title: "Ejercicios Regresión"
 author: "Gloria"
 date: '`r Sys.Date()`'
 output:
@@ -15,16 +15,16 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning= FALSE)
+knitr::opts_chunk$set(message = FALSE,  echo = FALSE, warning= FALSE )
 ```
 <br>
 <br>
 
-# Capítulo 1
+## Capítulo 1
 
 <br>
 
-## <span style="color:#20c997">Correlación</span>
+### <span style="color:#20c997">Correlación</span>
 
 <br>
 
@@ -46,7 +46,49 @@ que va a utilizar.\
 ```{r}
 
 library(readxl)
-#cerdos= read.csv()
+library(ggplot2)
+
+grasacerdos <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/grasacerdos.xlsx")
+print(head(grasacerdos,5))
+
+grasacerdos[] <- lapply(grasacerdos, function(x) {
+  if (is.character(x)) gsub(",", ".", x) else x
+})
+
 
 ```
+Cambiamos las "," por "." y visualizamos cuantos nulos hay  por columna. Convertimos las columnas de PV y EGD a numéricas. Pedimos el summary del dataframe. 
 
+```{r}
+print(str(grasacerdos))
+
+print(sapply(grasacerdos, function(x) sum(is.na(x)))) #cuantos valores nulos por columna tiene el dataframe
+
+library(dplyr)
+grasacerdos <- grasacerdos|>transmute(
+  PV= as.numeric(PV),
+  EGD= as.numeric(EGD)
+)
+summary(grasacerdos)
+
+```
+<br>
+(a) 
+
+
+```{r}
+library(lmtest)
+attach(grasacerdos)
+
+plot( PV,EGD, xlab= "PV, en Kg", ylab= "EGD, en mm",main="Diagrama de dispersión" )
+
+
+```
+```{r}
+#Diagrama con ggplot
+ggplot(data = grasacerdos, aes(x = PV, y = EGD)) +
+  geom_point() +
+  ggtitle("Peso vs  Espesor de grasa dorsal") +
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5))
+```
+En los datos visualizados  no pareciera haber asociación entre las variables. 
