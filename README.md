@@ -1,2 +1,4 @@
 # Regresion
-Prácticas de regresión 
+Prácticas de regresión del primer cuatrimestre de 2025.
+
+Aplicación de la teoría.
