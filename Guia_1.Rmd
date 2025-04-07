@@ -1,0 +1,29 @@
+---
+title: "Guia_1"
+author: "Gloria"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    toc: yes
+    code_folding: show
+    toc_float: yes
+    df_print: paged
+    theme: united
+    code_download: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<br>
+<br>
+
+# Guía 1
+
+<br>
+
+## <span style="color:darkblue">Correlación</span>
+
+<br>
