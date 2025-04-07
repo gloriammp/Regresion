@@ -3,7 +3,9 @@ title: "Ejercicios Regresión"
 author: "Gloria"
 date: '`r Sys.Date()`'
 output:
+  github_document
   html_document:
+    keep_md: true
     toc: yes
     code_folding: show
     toc_float: yes
@@ -24,7 +26,7 @@ knitr::opts_chunk$set(message = FALSE,  echo = FALSE, warning= FALSE )
 
 <br>
 
-### <span style="color:#20c997">Correlación</span>
+### <span style="color:#18bc9c">Correlación</span>
 
 <br>
 
@@ -92,3 +94,33 @@ ggplot(data = grasacerdos, aes(x = PV, y = EGD)) +
   theme_bw() + theme(plot.title = element_text(hjust = 0.5))
 ```
 En los datos visualizados  no pareciera haber asociación entre las variables. 
+
+(b)
+<br>
+En primer lugar analizo la normalidad de las variables mediante los gráficos de los histogramas, los qqplots y la prueba de Shapiro.
+```{r}
+par(mfrow = c(1, 2)) 
+hist(PV, breaks = 10, main = "", xlab = "Peso VIVO", border = "#2c3e50") 
+hist(EGD, breaks = 10, main = "", xlab = "Espesor de grasa dorsal", border = "#18bc9c")
+```
+```{r}
+par(mfrow = c(1, 2)) 
+qqnorm(PV, main = "Peso vivo", col = "#2c3e50") 
+qqline(PV) 
+qqnorm(EGD, main = "Espesor de grasa dorsal", col = "#18bc9c") 
+qqline(EGD)
+```
+```{r}
+par(mfrow = c(1, 1)) 
+
+#Test de hipótesis para el análisis de normalidad 
+shapiro.test(PV)
+```
+
+
+```{r}
+shapiro.test(EGD)
+```
+Por el test de Shapiro Wilk no se puede rechazar la normalidad de los datos en ninguno de los dos casos. 
+<br>
+Análisis de la normalidad multivariada - Test de Henze Zirkler
