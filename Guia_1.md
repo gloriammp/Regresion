@@ -2,7 +2,7 @@
 title: "Ejercicios Regresión"
 author: "Gloria"
 date: '2025-04-07'
-output:
+output: 
   html_document:
     keep_md: true
     toc: yes
@@ -13,6 +13,7 @@ output:
     code_download: yes
   pdf_document:
     toc: yes
+  
 ---
 
 
