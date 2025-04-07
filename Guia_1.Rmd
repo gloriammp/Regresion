@@ -1,5 +1,5 @@
 ---
-title: "Guia_1"
+title: "Guía 1"
 author: "Gloria"
 date: '`r Sys.Date()`'
 output:
@@ -8,22 +8,45 @@ output:
     code_folding: show
     toc_float: yes
     df_print: paged
-    theme: united
+    theme: flatly
     code_download: yes
   pdf_document:
     toc: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning= FALSE)
 ```
 <br>
 <br>
 
-# Guía 1
+# Capítulo 1
 
 <br>
 
-## <span style="color:darkblue">Correlación</span>
+## <span style="color:#20c997">Correlación</span>
 
 <br>
+
+Ejercicio 1.1. \
+<br>
+En el archivo grasacerdos.xlsx se encuentran los datos del peso
+vivo (PV, en Kg) y al espesor de grasa dorsal (EGD, en mm) de 30 lechones
+elegidos al azar de una población de porcinos Duroc Jersey del Oeste de la
+provincia de Buenos Aires. Se pide: \
+<br>
+(a) Dibujar el diagrama de dispersión e interpretarlo.\
+<br>
+(b) Calcular el coeficiente de correlación muestral y explíquelo.\
+<br>
+(c) ¿Hay suficiente evidencia para admitir asociación entre el peso y el espesor de grasa? (α = 0,05). Verifique los supuestos para decidir el indicador
+que va a utilizar.\
+
+
+```{r}
+
+library(readxl)
+#cerdos= read.csv()
+
+```
+
