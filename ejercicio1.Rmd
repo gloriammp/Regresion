@@ -31,5 +31,23 @@ La correlación entre las variables es baja .
 ```{r}
 cor.test(PV, EGD,method="pearson")
 ```
+No es necesario aplicar el coeficiente de Spearman pues se satisfacen los supuestos. 
+
+```{r}
+library(corrplot)
+M= cor(grasacerdos)
+M
+```
+
+
+```{r}
+v<- var(grasacerdos)
+```
+```{r}
+numerador<- var(grasacerdos)[2,1]
+denominador <- sqrt(v[1,1]) * sqrt(v[2,2])
+correlacion<- numerador/denominador
+correlacion
+```
 
 
