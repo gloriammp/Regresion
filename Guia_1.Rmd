@@ -124,3 +124,43 @@ shapiro.test(EGD)
 Por el test de Shapiro Wilk no se puede rechazar la normalidad de los datos en ninguno de los dos casos. 
 <br>
 Análisis de la normalidad multivariada - Test de Henze Zirkler
+
+```{r, echo=TRUE}
+#Análisis de normalidad bivariada 
+library(MVN)
+attach(grasacerdos)
+peso_egd=data.frame(PV,EGD)
+#Usamos Test Henze-Zirkler para evaluar normalidad multivariada (bivariada en este caso)
+respuesta_testHZ<-mvn(peso_egd , mvnTest = "hz")
+print(respuesta_testHZ$multivariateNormality)
+```
+El test da por resultado que las variables son normales bivariadas.
+
+La correlación entre ambas variables es:
+
+```{r}
+cor(PV, EGD, method= "pearson")
+```
+La correlación entre las variables es baja .
+
+```{r}
+cor.test(PV, EGD,method="pearson")
+```
+No es necesario aplicar el coeficiente de Spearman pues se satisfacen los supuestos. 
+
+```{r}
+library(corrplot)
+M= cor(grasacerdos)
+M
+```
+
+
+```{r}
+v<- var(grasacerdos)
+```
+```{r}
+numerador<- var(grasacerdos)[2,1]
+denominador <- sqrt(v[1,1]) * sqrt(v[2,2])
+correlacion<- numerador/denominador
+correlacion
+```
