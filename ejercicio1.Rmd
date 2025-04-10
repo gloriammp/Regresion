@@ -1,30 +1,53 @@
 ---
-title: "Untitled"
+title: "Ejercicio 1 (b)"
 author: "Gloria"
 date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+```
+Análisis de la normalidad multivariada - Test de Henze Zirkler
+
+```{r, echo=TRUE}
+#Análisis de normalidad bivariada 
+library(MVN)
+attach(grasacerdos)
+peso_egd=data.frame(PV,EGD)
+#Usamos Test Henze-Zirkler para evaluar normalidad multivariada (bivariada en este caso)
+respuesta_testHZ<-mvn(peso_egd , mvnTest = "hz")
+print(respuesta_testHZ$multivariateNormality)
+```
+El test da por resultado que las variables son normales bivariadas.
+
+La correlación entre ambas variables es:
+
+```{r}
+cor(PV, EGD, method= "pearson")
+```
+La correlación entre las variables es baja .
+
+```{r}
+cor.test(PV, EGD,method="pearson")
+```
+No es necesario aplicar el coeficiente de Spearman pues se satisfacen los supuestos. 
+
+```{r}
+library(corrplot)
+M= cor(grasacerdos)
+M
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+v<- var(grasacerdos)
+```
+```{r}
+numerador<- var(grasacerdos)[2,1]
+denominador <- sqrt(v[1,1]) * sqrt(v[2,2])
+correlacion<- numerador/denominador
+correlacion
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
