@@ -123,4 +123,4 @@ shapiro.test(EGD)
 ```
 Por el test de Shapiro Wilk no se puede rechazar la normalidad de los datos en ninguno de los dos casos. 
 <br>
-Análisis de la normalidad multivariada - Test de Henze Zirkler
+
