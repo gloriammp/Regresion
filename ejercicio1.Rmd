@@ -50,4 +50,62 @@ correlacion<- numerador/denominador
 correlacion
 ```
 
+## Ejercicio 1.2.
+<br>
+
+Los datos del cuarteto de Anscombe se encuentran en el archivo
+ anscombe.xlsx
+ Se pide explorar los datos de la siguiente manera:\
+ <br>
+ (a) Graficar los cuatro pares de datos en un diagrama de dispersión cada
+ uno.\
+ <br>
+ (b) Hallar los valores medios de las variables para cada para de datos.\
+<br> (c) Hallar los valores de la dispersión para cada conjunto de datos.\
+ <br>(d) Hallar el coeficiente muestral de correlación lineal en cada caso.\
+ <br>(e) Observar, comentar y concluir.\
+ <br>
+ 
+### (a) 
+
+```{r}
+library(readxl)
+
+df <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe.xlsx")
+
+```
+
+```{r}
+get_stats <- function(x, y) {
+  data.frame(
+    media_x = mean(x),
+    media_y = mean(y),
+    var_x = var(x),
+    var_y = var(y),
+    correl= cor(x,y)
+  )
+}
+
+resultados <- data.frame()
+```
+
+
+```{r}
+
+
+for (i in 1:4) {
+  x <- df[[paste0("x", i)]]
+  y <- df[[paste0("y", i)]]
+  stats <- get_stats(x, y)
+  stats$grupo <- paste0("Grupo ", i)
+  resultados <- rbind(resultados, stats)
+}
+
+names(resultados)
+```
+```{r}
+resultados <- resultados |> select("grupo", "media_x", "media_y", "var_y","correl")
+resultados 
+```
+
 

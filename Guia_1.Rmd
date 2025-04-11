@@ -30,7 +30,7 @@ knitr::opts_chunk$set(message = FALSE,  echo = FALSE, warning= FALSE )
 
 <br>
 
-Ejercicio 1.1. \
+## Ejercicio 1.1. \
 <br>
 En el archivo grasacerdos.xlsx se encuentran los datos del peso
 vivo (PV, en Kg) y al espesor de grasa dorsal (EGD, en mm) de 30 lechones
@@ -75,7 +75,8 @@ summary(grasacerdos)
 
 ```
 <br>
-(a) 
+
+### (1.1.a) 
 
 
 ```{r}
@@ -95,7 +96,7 @@ ggplot(data = grasacerdos, aes(x = PV, y = EGD)) +
 ```
 En los datos visualizados  no pareciera haber asociación entre las variables. 
 
-(b)
+### (1.1.b)
 <br>
 En primer lugar analizo la normalidad de las variables mediante los gráficos de los histogramas, los qqplots y la prueba de Shapiro.
 ```{r}
@@ -141,26 +142,46 @@ La correlación entre ambas variables es:
 ```{r}
 cor(PV, EGD, method= "pearson")
 ```
-La correlación entre las variables es baja .
+La correlación entre las variables es baja: Si el valor de r es cercano a 0, indica que no existe una tendencia
+creciente o decreciente entre las variables estudiadas.
+
 
 ```{r}
 cor.test(PV, EGD,method="pearson")
 ```
-No es necesario aplicar el coeficiente de Spearman pues se satisfacen los supuestos. 
+El test arroja que el valor p de la prueba de Pearson es 0.175. 
+
 
 ```{r}
 library(corrplot)
 M= cor(grasacerdos)
 M
 ```
-
+Si bien no es necesario aplicar el coeficiente de Spearman pues se satisfacen los supuestos, igualmente lo hago.
 
 ```{r}
-v<- var(grasacerdos)
+cor.test(PV, EGD,method="spearman")
 ```
+## Ejercicio 1.2.
+<br>
+
+Los datos del cuarteto de Anscombe se encuentran en el archivo
+ anscombe.xlsx
+ Se pide explorar los datos de la siguiente manera:\
+ <br>
+ (a) Graficar los cuatro pares de datos en un diagrama de dispersión cada
+ uno.\
+ <br>
+ (b) Hallar los valores medios de las variables para cada para de datos.\
+<br> (c) Hallar los valores de la dispersión para cada conjunto de datos.\
+ <br>(d) Hallar el coeficiente muestral de correlación lineal en cada caso.\
+ <br>(e) Observar, comentar y concluir.\
+ <br>
+ 
+### (a) 
 ```{r}
-numerador<- var(grasacerdos)[2,1]
-denominador <- sqrt(v[1,1]) * sqrt(v[2,2])
-correlacion<- numerador/denominador
-correlacion
+library(readxl)
+library(gt)
+anscombe <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe.xlsx")
+anscombe |> gt()
 ```
