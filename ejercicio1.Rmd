@@ -66,16 +66,21 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
  <br>(e) Observar, comentar y concluir.\
  <br>
  
-### (a) 
+### (a)
+
 
 ```{r}
 library(readxl)
 
-df <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe.xlsx")
+anscombe_completos <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe_completos.xlsx", 
+    col_types = c("numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric"))
 
-```
+anscombe_completos[2,2]<-6.95
 
-```{r}
+
+
 get_stats <- function(x, y) {
   data.frame(
     media_x = mean(x),
@@ -103,9 +108,36 @@ for (i in 1:4) {
 
 names(resultados)
 ```
-```{r}
-resultados <- resultados |> select("grupo", "media_x", "media_y", "var_y","correl")
-resultados 
-```
 
+
+
+
+```{r}
+library(ggplot2)
+
+# Crear un DataFrame combinando los datos de los cuatro grupos
+anscombe_long <- data.frame(
+  x = unlist(lapply(1:4, function(i) anscombe_completos[[paste0("x", i)]])),
+  y = unlist(lapply(1:4, function(i) anscombe_completos[[paste0("y", i)]])),
+  grupo = rep(paste0("Grupo ", 1:4), each = nrow(anscombe_completos))
+)
+
+if (!requireNamespace("ggthemes", quietly = TRUE)) {
+  install.packages("ggthemes")
+}
+
+# Cargar ggthemes
+library(ggthemes)
+
+# Graficar los datos con ggplot2 y aplicar el tema Flatly
+ggplot(anscombe_long, aes(x = x, y = y)) +
+  geom_point(color="#2c3e50") +
+  facet_wrap(~ grupo) +
+  labs(title = "Gráficos de los cuatro grupos de Anscombe",
+       x = "X",
+       y = "Y") +
+  theme_fivethirtyeight() +  # Tema Flatly de ggthemes
+  theme(axis.title = element_text())  # Ajustar títulos de los 
+```
+### (b)
 
