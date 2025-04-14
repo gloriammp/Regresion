@@ -82,16 +82,21 @@ anscombe_completos[2,2]<-6.95
 
 
 get_stats <- function(x, y) {
+  # Create and store the linear model
+  lin_mod <- lm(y ~ x)
+  
+  # Create data frame with statistics
   data.frame(
     media_x = mean(x),
     media_y = mean(y),
     var_x = var(x),
     var_y = var(y),
-    correl= cor(x,y)
+    correl = cor(x, y),
+    rcuad = summary(lin_mod)$r.squared  # Fixed this line
   )
 }
 
-resultados <- data.frame()
+
 ```
 
 
@@ -99,17 +104,15 @@ resultados <- data.frame()
 
 
 for (i in 1:4) {
-  x <- df[[paste0("x", i)]]
-  y <- df[[paste0("y", i)]]
+  x <- anscombe_completos[[paste0("x", i)]]
+  y <- anscombe_completos[[paste0("y", i)]]
   stats <- get_stats(x, y)
   stats$grupo <- paste0("Grupo ", i)
   resultados <- rbind(resultados, stats)
 }
 
-names(resultados)
+
 ```
-
-
 
 
 ```{r}
@@ -140,4 +143,10 @@ ggplot(anscombe_long, aes(x = x, y = y)) +
   theme(axis.title = element_text())  # Ajustar títulos de los 
 ```
 ### (b)
+
+```{r}
+resultados <- resultados |> select(grupo, media_x, media_y, var_x, var_y, correl, rcuad) |> gt()
+
+resultados
+
 
