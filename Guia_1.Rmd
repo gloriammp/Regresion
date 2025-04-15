@@ -22,15 +22,16 @@ knitr::opts_chunk$set(message = FALSE,  echo = FALSE, warning= FALSE )
 <br>
 <br>
 
-## Capítulo 1
+# Capítulo 1. Regresión Lineal Simple
+
 
 <br>
 
-### <span style="color:#18bc9c">Correlación</span>
+## <span style="color:#18bc9c">Correlación</span>
 
 <br>
 
-## Ejercicio 1.1. \
+### Ejercicio 1.1. \
 <br>
 En el archivo grasacerdos.xlsx se encuentran los datos del peso
 vivo (PV, en Kg) y al espesor de grasa dorsal (EGD, en mm) de 30 lechones
@@ -76,14 +77,14 @@ summary(grasacerdos)
 ```
 <br>
 
-### (1.1.a) 
+#### (1.1.a) 
 
 
 ```{r}
 library(lmtest)
 attach(grasacerdos)
 
-plot( PV,EGD, xlab= "PV, en Kg", ylab= "EGD, en mm",main="Diagrama de dispersión" )
+plot( PV,EGD, xlab= "PV, en Kg", ylab= "EGD, en mm", main= "Peso vivo vs Espesor de grasa dorsal", col= "#2c3e50", pch= 19)
 
 
 ```
@@ -96,7 +97,7 @@ ggplot(data = grasacerdos, aes(x = PV, y = EGD)) +
 ```
 En los datos visualizados  no pareciera haber asociación entre las variables. 
 
-### (1.1.b)
+#### (1.1.b)
 <br>
 En primer lugar analizo la normalidad de las variables mediante los gráficos de los histogramas, los qqplots y la prueba de Shapiro.
 ```{r}
@@ -162,7 +163,8 @@ Si bien no es necesario aplicar el coeficiente de Spearman pues se satisfacen lo
 ```{r}
 cor.test(PV, EGD,method="spearman")
 ```
-## Ejercicio 1.2.
+
+### Ejercicio 1.2.
 <br>
 
 Los datos del cuarteto de Anscombe se encuentran en el archivo
@@ -178,10 +180,118 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
  <br>(e) Observar, comentar y concluir.\
  <br>
  
-### (a) 
+#### (a)
+
+
 ```{r}
 library(readxl)
 library(gt)
-anscombe <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe.xlsx")
-anscombe |> gt()
+
+anscombe_completos <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/anscombe_completos.xlsx", 
+    col_types = c("numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric"))
+
+anscombe_completos[2,2]<-6.95
+
+
+
+get_stats <- function(x, y) {
+  # Create and store the linear model
+  lin_mod <- lm(y ~ x)
+  
+  # Create data frame with statistics
+  data.frame(
+    media_x = mean(x),
+    media_y = mean(y),
+    var_x = var(x),
+    var_y = var(y),
+    correl = cor(x, y),
+    rcuad = summary(lin_mod)$r.squared  # Fixed this line
+  )
+}
+
+
 ```
+
+
+```{r}
+
+resultados <- data.frame()
+
+for (i in 1:4) {
+  x <- anscombe_completos[[paste0("x", i)]]
+  y <- anscombe_completos[[paste0("y", i)]]
+  stats <- get_stats(x, y)
+  stats$Grupo <- paste0("Grupo ", i)
+  resultados <- rbind(resultados, stats)
+  
+}
+
+
+```
+
+
+```{r}
+library(ggplot2)
+
+# Crear un DataFrame combinando los datos de los cuatro grupos
+anscombe_long <- data.frame(
+  x = unlist(lapply(1:4, function(i) anscombe_completos[[paste0("x", i)]])),
+  y = unlist(lapply(1:4, function(i) anscombe_completos[[paste0("y", i)]])),
+  grupo = rep(paste0("Grupo ", 1:4), each = nrow(anscombe_completos))
+)
+
+if (!requireNamespace("ggthemes", quietly = TRUE)) {
+  install.packages("ggthemes")
+}
+
+# Cargar ggthemes
+library(ggthemes)
+
+# Graficar los datos con ggplot2 y aplicar el tema Flatly
+ggplot(anscombe_long, aes(x = x, y = y)) +
+  geom_point(color="#2c3e50") +
+  facet_wrap(~ grupo) +
+  labs(title = "Gráficos de los cuatro grupos de Anscombe",
+       x = "X",
+       y = "Y") +
+  theme_fivethirtyeight() +  # Tema Flatly de ggthemes
+  theme(axis.title = element_text())
+```
+
+#### (b)
+
+```{r}
+resultados <- resultados |> select(Grupo, media_x, media_y, var_x, var_y, correl, rcuad) |> gt()
+
+resultados
+```  
+## <span style="color:#18bc9c"> Modelo Lineal Simple</span>
+<br>
+
+### Ejercicio 1.3. \
+<br>
+El archivo peso_edad_colest.xlsx disponible en contiene regis
+tros correspondientes a 25 individuos respecto de su peso, su edad y el nivel
+ de colesterol total en sangre.
+ Se pide:
+ <br>
+ (a) Realizar el diagrama de dispersión de colesterol en función de la edad y
+ de colesterol en función de peso. Le parece adecuado ajustar un modelo
+ lineal para alguno de estos dos pares de variables?
+  <br>
+ (b) Estime los coeficientes del modelo lineal para el colesterol en función de
+ la edad.
+  <br>
+ (c) Estime intervalos de confianza del 95% para los coeficientes del modelo
+ y compare estos resultados con el test de Wald para los coeficientes. Le
+ parece que hay asociación entre estos test y el test de la regresión?
+  <br>
+ (d) A partir de esta recta estime los valores de E(Y) para x = 25 años y
+ x =48años. Podría estimarse el valor de E(Y) para x = 80 años?
+  <b>r>
+ (e) Testee la normalidad de los residuos y haga un gráfico para ver si son
+ homocedásticos.
+  <br>
+
