@@ -325,7 +325,100 @@ Viendo los gráficos de dispersión, pareciera  que el colesterol en función de
 ```{r}
 modelo_edad <- lm(colest ~ edad, data =peso_edad_colest)
 
-summary(modelo_edad)  
+summary(modelo_edad)
 ```
 
-####(c)
+
+```{r}
+sd(peso_edad_colest$colest)*0.8811468/sd(peso_edad_colest$edad)
+```
+
+
+```{r}
+cor(peso_edad_colest$colest, peso_edad_colest$edad, method = "pearson")
+```
+
+#### (c)
+
+Test de Wald para los coeficientes del modelo:
+
+```{r, echo=TRUE}
+library(aod)
+wald.test(b = coef(modelo_edad), Sigma = vcov(modelo_edad), Terms = 1:2) # chequeo B0 y B1
+```
+La prueba arroja que el valor p para la prueba de Wald es menor a 0.05, por lo que se rechaza la hipótesis nula de que los coeficientes son iguales a cero. Esto indica que hay evidencia para suponer una asociación significativa entre la edad y el colesterol total en sangre.\
+<br>
+Los intervalos de confianza a nivel 95% para los coeficientes del modelo son:
+
+```{r, echo= TRUE}
+confint(modelo_edad, level = 0.95)
+```
+Tanto los resultados del test de Wald como los intervalos de confianza coinciden que los coeficientes de la regresión son diferentes a cero. 
+
+#### (d)
+
+
+ 
+ 
+```{r}
+# Estimación de E(Y) para x = 25 y x = 48
+
+Estimacion_25= coef(modelo_edad)[1]+coef(modelo_edad)[2]*25
+print (paste("La estimación para x=25 es", Estimacion_25) )
+Estimacion_48= coef(modelo_edad)[1]+coef(modelo_edad)[2]*48
+print (paste("La estimación para x= 48 es ", Estimacion_48))
+```
+```{r, echo=TRUE}
+# Estimación de E(Y) para x = 80
+ print(max(peso_edad_colest$edad))
+ print(min(peso_edad_colest$edad))
+
+```
+Como los datos de edad que tenemos son toma los valores entre 20 y 60, no es posible realizar una estimación para X=80.
+
+#### (e)  
+
+Análisis de la normalidad de los residuos del modelo: \
+<br>
+
+```{r}
+edad <- peso_edad_colest
+edad$prediccion <- modelo_edad$fitted.values 
+edad$residuos <- modelo_edad$residuals
+
+ggplot(data = edad, aes(x = residuos)) + geom_histogram(aes(y = ..density..)) + 
+  labs(title = "Histograma de los residuos") + theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+```{r}
+qqnorm(modelo_edad$residuals) 
+qqline(modelo_edad$residuals)
+```
+```{r}
+shapiro.test(modelo_edad$residuals)
+```
+  
+  
+El p-valor de la prueba de Shapiro-Wilk es 0.5175, lo que indica que no se puede rechazar la hipótesis nula de normalidad de los residuos. \
+<br>
+Análisis de la homocedasticidad de los residuos del modelo: \
+
+```{r}
+ggplot(data = edad, aes(x = prediccion, y = residuos)) + 
+  geom_point(aes(color = residuos)) + 
+  scale_color_gradient2(low = "blue3", mid = "grey", high = "red") + 
+  geom_hline(yintercept = 0) + geom_segment(aes(xend = prediccion, yend = 0), alpha = 0.2) + 
+  labs(title = "Distribución de los residuos", x = "predicción modelo", y = "residuo") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "none")
+
+```
+No se observa estructura en los residuos del modelo. \
+<br>
+Test de Breusch-Pagan para la homocedasticidad: \
+```{r, echo=TRUE}
+library(lmtest)
+bptest(modelo_edad)
+```
+El p-value de la Prueba de Breusch-PAgan es 0.6908, por lo que no se rechaza la hipótesis nula de homocedasticidad. \
+

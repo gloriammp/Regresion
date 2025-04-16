@@ -1,7 +1,7 @@
 ---
 title: "Ejercicios Regresión"
 author: "Gloria"
-date: '2025-04-15'
+date: '2025-04-16'
 output: 
   
   html_document:
@@ -213,23 +213,23 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
 
 
 ```{=html}
-<div id="okukhbpeub" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#okukhbpeub table {
+<div id="whtmqclddf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#whtmqclddf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#okukhbpeub thead, #okukhbpeub tbody, #okukhbpeub tfoot, #okukhbpeub tr, #okukhbpeub td, #okukhbpeub th {
+#whtmqclddf thead, #whtmqclddf tbody, #whtmqclddf tfoot, #whtmqclddf tr, #whtmqclddf td, #whtmqclddf th {
   border-style: none;
 }
 
-#okukhbpeub p {
+#whtmqclddf p {
   margin: 0;
   padding: 0;
 }
 
-#okukhbpeub .gt_table {
+#whtmqclddf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -255,12 +255,12 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-left-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_caption {
+#whtmqclddf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#okukhbpeub .gt_title {
+#whtmqclddf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -272,7 +272,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-bottom-width: 0;
 }
 
-#okukhbpeub .gt_subtitle {
+#whtmqclddf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -284,7 +284,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-top-width: 0;
 }
 
-#okukhbpeub .gt_heading {
+#whtmqclddf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -296,13 +296,13 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-right-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_bottom_border {
+#whtmqclddf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_col_headings {
+#whtmqclddf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -317,7 +317,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-right-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_col_heading {
+#whtmqclddf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -337,7 +337,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   overflow-x: hidden;
 }
 
-#okukhbpeub .gt_column_spanner_outer {
+#whtmqclddf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -349,15 +349,15 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 4px;
 }
 
-#okukhbpeub .gt_column_spanner_outer:first-child {
+#whtmqclddf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#okukhbpeub .gt_column_spanner_outer:last-child {
+#whtmqclddf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#okukhbpeub .gt_column_spanner {
+#whtmqclddf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -369,11 +369,11 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   width: 100%;
 }
 
-#okukhbpeub .gt_spanner_row {
+#whtmqclddf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#okukhbpeub .gt_group_heading {
+#whtmqclddf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,7 +399,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   text-align: left;
 }
 
-#okukhbpeub .gt_empty_group_heading {
+#whtmqclddf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -414,15 +414,15 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   vertical-align: middle;
 }
 
-#okukhbpeub .gt_from_md > :first-child {
+#whtmqclddf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#okukhbpeub .gt_from_md > :last-child {
+#whtmqclddf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#okukhbpeub .gt_row {
+#whtmqclddf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -441,7 +441,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   overflow-x: hidden;
 }
 
-#okukhbpeub .gt_stub {
+#whtmqclddf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -454,7 +454,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 5px;
 }
 
-#okukhbpeub .gt_stub_row_group {
+#whtmqclddf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -468,15 +468,15 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   vertical-align: top;
 }
 
-#okukhbpeub .gt_row_group_first td {
+#whtmqclddf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#okukhbpeub .gt_row_group_first th {
+#whtmqclddf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#okukhbpeub .gt_summary_row {
+#whtmqclddf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -486,16 +486,16 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 5px;
 }
 
-#okukhbpeub .gt_first_summary_row {
+#whtmqclddf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_first_summary_row.thick {
+#whtmqclddf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#okukhbpeub .gt_last_summary_row {
+#whtmqclddf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -505,7 +505,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-bottom-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_grand_summary_row {
+#whtmqclddf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -515,7 +515,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 5px;
 }
 
-#okukhbpeub .gt_first_grand_summary_row {
+#whtmqclddf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -525,7 +525,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-top-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_last_grand_summary_row_top {
+#whtmqclddf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -535,11 +535,11 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-bottom-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_striped {
+#whtmqclddf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#okukhbpeub .gt_table_body {
+#whtmqclddf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -548,7 +548,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-bottom-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_footnotes {
+#whtmqclddf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -562,7 +562,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-right-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_footnote {
+#whtmqclddf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -571,7 +571,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 5px;
 }
 
-#okukhbpeub .gt_sourcenotes {
+#whtmqclddf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -585,7 +585,7 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   border-right-color: #D3D3D3;
 }
 
-#okukhbpeub .gt_sourcenote {
+#whtmqclddf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -593,72 +593,72 @@ Los datos del cuarteto de Anscombe se encuentran en el archivo
   padding-right: 5px;
 }
 
-#okukhbpeub .gt_left {
+#whtmqclddf .gt_left {
   text-align: left;
 }
 
-#okukhbpeub .gt_center {
+#whtmqclddf .gt_center {
   text-align: center;
 }
 
-#okukhbpeub .gt_right {
+#whtmqclddf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#okukhbpeub .gt_font_normal {
+#whtmqclddf .gt_font_normal {
   font-weight: normal;
 }
 
-#okukhbpeub .gt_font_bold {
+#whtmqclddf .gt_font_bold {
   font-weight: bold;
 }
 
-#okukhbpeub .gt_font_italic {
+#whtmqclddf .gt_font_italic {
   font-style: italic;
 }
 
-#okukhbpeub .gt_super {
+#whtmqclddf .gt_super {
   font-size: 65%;
 }
 
-#okukhbpeub .gt_footnote_marks {
+#whtmqclddf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#okukhbpeub .gt_asterisk {
+#whtmqclddf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#okukhbpeub .gt_indent_1 {
+#whtmqclddf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#okukhbpeub .gt_indent_2 {
+#whtmqclddf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#okukhbpeub .gt_indent_3 {
+#whtmqclddf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#okukhbpeub .gt_indent_4 {
+#whtmqclddf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#okukhbpeub .gt_indent_5 {
+#whtmqclddf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#okukhbpeub .katex-display {
+#whtmqclddf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#okukhbpeub div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#whtmqclddf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -766,4 +766,120 @@ Viendo los gráficos de dispersión, pareciera  que el colesterol en función de
 ## F-statistic: 79.87 on 1 and 23 DF,  p-value: 6.094e-09
 ```
 
-####(c)
+
+
+```
+## [1] 5.670842
+```
+
+
+
+```
+## [1] 0.8811468
+```
+
+#### (c)
+
+Test de Wald para los coeficientes del modelo:
+
+
+``` r
+library(aod)
+wald.test(b = coef(modelo_edad), Sigma = vcov(modelo_edad), Terms = 1:2) # chequeo B0 y B1
+```
+
+```
+## Wald test:
+## ----------
+## 
+## Chi-squared test:
+## X2 = 1696.6, df = 2, P(> X2) = 0.0
+```
+La prueba arroja que el valor p para la prueba de Wald es menor a 0.05, por lo que se rechaza la hipótesis nula de que los coeficientes son iguales a cero. Esto indica que hay evidencia para suponer una asociación significativa entre la edad y el colesterol total en sangre.\
+<br>
+Los intervalos de confianza a nivel 95% para los coeficientes del modelo son:
+
+
+``` r
+confint(modelo_edad, level = 0.95)
+```
+
+```
+##                 2.5 %     97.5 %
+## (Intercept) 41.190390 149.813618
+## edad         4.358216   6.983467
+```
+Tanto los resultados del test de Wald como los intervalos de confianza coinciden que los coeficientes de la regresión son diferentes a cero. 
+
+#### (d)
+
+
+ 
+ 
+
+```
+## [1] "La estimación para x=25 es 237.273046092184"
+```
+
+```
+## [1] "La estimación para x= 48 es  367.702404809619"
+```
+
+``` r
+# Estimación de E(Y) para x = 80
+ print(max(peso_edad_colest$edad))
+```
+
+```
+## [1] 60
+```
+
+``` r
+ print(min(peso_edad_colest$edad))
+```
+
+```
+## [1] 20
+```
+Como los datos de edad que tenemos son toma los valores entre 20 y 60, no es posible realizar una estimación para X=80.
+
+#### (e)  
+
+Análisis de la normalidad de los residuos del modelo: \
+<br>
+
+![](Guia_1_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](Guia_1_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  modelo_edad$residuals
+## W = 0.96478, p-value = 0.5175
+```
+  
+  
+El p-valor de la prueba de Shapiro-Wilk es 0.5175, lo que indica que no se puede rechazar la hipótesis nula de normalidad de los residuos. \
+<br>
+Análisis de la homocedasticidad de los residuos del modelo: \
+
+![](Guia_1_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+No se observa estructura en los residuos del modelo. \
+<br>
+Test de Breusch-Pagan para la homocedasticidad: \
+
+``` r
+library(lmtest)
+bptest(modelo_edad)
+```
+
+```
+## 
+## 	studentized Breusch-Pagan test
+## 
+## data:  modelo_edad
+## BP = 0.15821, df = 1, p-value = 0.6908
+```
+El p-value de la Prueba de Breusch-PAgan es 0.6908, por lo que no se rechaza la hipótesis nula de homocedasticidad. \
+
