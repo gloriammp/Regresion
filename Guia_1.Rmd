@@ -421,4 +421,27 @@ library(lmtest)
 bptest(modelo_edad)
 ```
 El p-value de la Prueba de Breusch-PAgan es 0.6908, por lo que no se rechaza la hipótesis nula de homocedasticidad. \
+<br>
+Gráfico de análisis de independencia de las observaciones.\
+
+```{r}
+ggplot(data = edad, aes(x = seq_along(residuos), y = residuos)) + 
+  geom_point(aes(color = residuos)) + 
+  scale_color_gradient2(low = "blue3", mid = "grey", high = "red") + 
+  geom_line(size = 0.3) + labs(title = "Distribución de los residuos", x = "index", y = "residuo")+ 
+  geom_hline(yintercept = 0) + 
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "none")
+```
+No se detecta ningún patrón en el gráfico de los residuos.\
+<br>
+Test de Durbin-Watson para analizar la autocorrelación de los residuos:
+
+```{r, echo=TRUE}
+
+library(car)
+dwtest(modelo_edad)
+```
+No se rechaza la la NO AUTOCORRELACIÓN de los residuos. Se valida el supuesto de independencia de las observaciones.\
+
+<br>
 
