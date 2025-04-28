@@ -325,7 +325,9 @@ Viendo los gráficos de dispersión, pareciera  que el colesterol en función de
 ```{r}
 modelo_edad <- lm(colest ~ edad, data =peso_edad_colest)
 
-summary(modelo_edad)
+print(summary(modelo_edad))
+
+print(anova(modelo_edad))
 ```
 
 
@@ -441,7 +443,421 @@ Test de Durbin-Watson para analizar la autocorrelación de los residuos:
 library(car)
 dwtest(modelo_edad)
 ```
-No se rechaza la la NO AUTOCORRELACIÓN de los residuos. Se valida el supuesto de independencia de las observaciones.\
+No se rechaza la  NO AUTOCORRELACIÓN de los residuos. Se valida el supuesto de independencia de las observaciones.\
 
 <br>
+
+## <span style="color:#18bc9c">Transformación de Variables</span>
+
+<br>
+
+### Ejercicio 1.4.\ PREGUNTAR
+<br>
+Una empresa desarrolló un sistema de energía solar para calentar el agua para una caldera que es parte del sistema de energía del proceso
+productivo. Existe el interés de controlar la estabilidad del sistema, para ello
+se monitorea el mismo y se registran los datos cada hora. Los datos se encuentran disponibles en el archivo energia.xlsx.\
+<br>
+(a) Realizar el diagrama de dispersión y evaluar si un modelo de regresión
+lineal es adecuado.\
+<br>
+(b) Estimar un modelo lineal y verificar la normalidad de los residuos del
+mismo.\
+<br>
+(c) En caso de rechazar este supuesto buscar una transformación lineal para
+este modelo y aplicarla.\
+<br>
+(d) Realizar el análisis diagnóstico del nuevo modelo y estimar un intervalo
+de confianza y un intervalo de predicción para 27.5 hs con ambos modelos. Comparar los intervalos.\
+<br>
+
+```{r}
+energia <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/energia.xlsx")
+summary(energia)
+
+```
+#### (a)
+
+```{r}
+library(ggplot2)
+print(head(energia,3))
+ggplot(energia, aes(Hora,Energía))+
+geom_point()+
+geom_smooth(method = "lm", se = FALSE, color = "blue") +
+
+  labs(title = "Diagrama de dispersión", x = "Hora", y = "Energía") +
+  theme_minimal()
+
+```  
+<br>
+Por lo visto en el diagrama de dispersión no pareciera haber una relación lineal entre las variables. \
+
+```{r}
+library(lmtest)
+linMod <- lm(Energía ~ Hora, data = energia)
+plot(energia$Hora,energia$Energía,xlab="Hora",ylab="Energia",
+     main="Energia vs Hora")
+
+abline(linMod,col="darkviolet",lwd=2)
+```
+
+<br>
+
+#### (b)
+
+```{r}
+
+summary(linMod)
+```
+```{r}
+cor(energia$Hora, energia$Energía)^2
+```
+
+Para verificar la normalidad de los residuos hacemos uso del test de Shapiro Wilk.
+
+```{r}
+energias<- energia
+energias$prediccion <- linMod$fitted.values
+energias$residuos <- linMod$residuals
+
+ggplot(data=energias, aes(x=residuos)) + 
+  geom_histogram(aes(y=..density..)) + 
+  labs(title="Histograma de los residuos") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+```{r}
+qqnorm(linMod$residuals)
+qqline(linMod$residuals)
+``` 
+```{r}
+shapiro.test(linMod$residuals)
+```
+El test de Shapiro Wilk arroja un p-value de 0.006752, por lo que se rechaza la hipótesis nula de normalidad de los residuos. \
+
+
+
+#### (c) 
+<br>
+Como se rechazó la hipótesis nula de normalidad de los residuos, se procede a realizar una transformación de las variables.
+
+```{r}
+#Transformación de Box & Cox
+# Puedo aplicar Box y Cox porque la variable respuesta Y Energía es positiva.
+library(MASS)
+
+bc <- boxcox(Energía ~ Hora, lambda = -4:2, data = energia)
+
+lambda_optimo <- bc$x[which.max(bc$y)]
+lambda_optimo
+
+```   
+Se pudo aplicar el Box y Cox porque las variable respuesta tomaba valores positivos. Observando el gráfico se ve que el lambda óptimo es de -1.3 aproximadamente. \
+
+Como la forma de estras transformaciones es 
+
+$$
+L(y) =
+\begin{cases}
+\displaystyle \frac{y^{\lambda} - 1}{\lambda}, & \text{si } \lambda \ne 0 \\
+\ln(y), & \text{si } \lambda = 0
+\end{cases}
+$$
+en este caso $\lambda \ne 0$, por lo tanto la transformación es:
+
+$$L(y)=\frac{y^{-1.33}-1}{-1.33}$$
+```{r, echo= TRUE}
+energia$lambda_optimo <- (energia$Energía^lambda_optimo -1)/lambda_optimo
+
+modelo_transformado <- lm(lambda_optimo ~ Hora, data = energia)
+
+summary(modelo_transformado)
+```
+#### (d)
+```{r}
+library(lmtest)
+
+plot(energia$Hora,energia$lambda_optimo,xlab="Hora",ylab="Energia transformada",
+     main="Energia Transformada vs Hora")
+
+abline(modelo_transformado,col="darkviolet",lwd=2)
+```
+```{r, echo=TRUE}
+#Análisis diagnóstico del modelo transformado
+shapiro.test(modelo_transformado$residuals)
+```
+Test de Breusch Pagan para la homocedasticidad:
+```{r}
+bptest(modelo_transformado) 
+
+```
+```{r}
+dwt(modelo_transformado)
+```
+
+
+Intervalos de confianza y de predicción para el modelo original
+
+```{r}
+#Bandas de predicción
+predichos <- predict (object=linMod, interval= "prediction", level=0.95)
+nuevos_datos <- data.frame(energia, predichos)
+
+ggplot(nuevos_datos, aes(x= Hora, y=Energía)) +
+  geom_point(col= "#0B3B2E") +
+geom_line(aes(y=lwr), color="#088A4B", linetype="dashed" ) +
+geom_line(aes(y=upr), color="#088A4B" , linetype="dashed" ) +
+geom_smooth(method=lm, formula=y ~ x, se=TRUE, level=0.95,
+col="#088A4B", fill="pink2") +theme_light()
+
+```
+```{r}
+#Bandas de predicción
+predichos2 <- predict (object=modelo_transformado, interval= "prediction", level=0.95)
+nuevos_datos2 <- data.frame(energia, predichos2)
+
+ggplot(nuevos_datos2, aes(x= Hora, y=Energía)) +
+  geom_point(col= "#0B3B2E") +
+geom_line(aes(y=lwr), color="blue", linetype="dashed" ) +
+geom_line(aes(y=upr), color="blue" , linetype="dashed" ) +
+geom_smooth(method=lm, formula=y ~ x, se=TRUE, level=0.95,
+col="#088A4B", fill="pink2") +theme_light()
+```
+
+```{r, echo=TRUE}
+#Analizamos ambos tipos de intervalos en todos los modelos probados cuando horas=27.5
+
+IC<-predict(linMod,newdata=data.frame(Hora= 27.5),interval="confidence")
+IP<-predict(linMod,newdata=data.frame(Hora=27.5),interval="prediction")
+
+print(IC)  
+
+```
+```{r}
+print(IP)
+```
+```{r}
+#Intervalos de confianza y de predicción para el modelo transformado
+IC2<-predict(modelo_transformado,newdata=data.frame(Hora=27.5),interval="confidence")
+IP2<-predict(modelo_transformado,newdata=data.frame(Hora=27.5),interval="prediction")
+
+IC2
+```
+```{r}
+IP2
+```
+```{r}
+L_y<- IC2[1,1]
+lambda<- lambda_optimo
+y= (lambda*L_y+1)^(1/lambda)  
+y
+```
+
+```{r}
+plot(energia$Hora,energia$Energía, xlab="Hora",ylab="Energía",
+     main="Hora vs Energía",xlim=c(20,30))
+
+abline(linMod,col="darkviolet",lwd=2)
+abline(modelo_transformado,col="pink",lwd=2)
+abline(h=y,col="darkblue",lwd=2)
+abline(v=27.5,col="darkblue",lwd=2)
+```
+
+## <span style="color:#18bc9c"> Tratamiento de la heterocedasticidad</span>
+
+### Ejercicio 1.4
+
+<br>
+Se obtuvieron datos históricos del mercado inmobiliario de una
+ciudad de Nueva Taipei, en Taiwan. La base es inmobiliaria.xlsx .\
+<br>
+Las características son:<br>
+edad: Edad de la propiedad (en años).<br>
+distancia: La distancia a la estación de transporte más cercana (en metros).<br> negocios: Cantidad de negocios de conveniencia en las cercanías a
+una distancia realizable a pie.<br>
+latitud: Latitud de la ubicación de la propiedad (en grados).<br>
+longitud: Longitud de la ubicación de la propiedad (en grados).<br>
+precio: Precio por metro cuadrado (en miles de dólares).<br>
+<br>
+Se quiere investigar si el precio de las propiedades puede ser estimado en
+función de alguna de las variables disponibles.\
+<br>
+(a) Analizar si el precio depende de alguna de las variables.\
+<br>
+(b) Estudiar la linealidad de la relación precio-distancia.\
+<br>
+(c) Estimar los coeficientes del modelo y realizar el análisis diagnóstico de
+los residuos del mismo. Utilizar para este análisis los gráficos de residuos
+versus valores ajustados, el qq-plot de los residuos, la grafica de residuos
+versus leverage.\
+<br>
+(d) Aplicar los test de Durbin-Watson Breush-Pagan.\
+<br>
+(e) Analice la presencia de outlier y verifique si coinciden con los puntos
+influyentes.\
+<br>
+<br>
+
+#### (a)
+
+```{r}
+inmobiliaria <- read.csv("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/inmobiliaria.csv", sep=";")
+print(dim(inmobiliaria))
+head(inmobiliaria,3)
+```
+```{r}
+par(bg="white")
+pairs(inmobiliaria) 
+```
+
+Mirando los gráficos podría decirse que el precio tiene relación con la distancia, los negocios y la edad. 
+
+#### (b)
+
+
+
+```{r, echo=TRUE}
+#Analizamos la normalidad de las variables.
+
+par(mfrow = c(1, 2))
+hist(inmobiliaria$precio, breaks = 10, main = "", xlab = "Precio", border = "#2c3e50")
+hist(inmobiliaria$distancia, breaks = 10, main = "", xlab = "Distancia", border = "#18bc9c")
+```
+
+```{r, echo=TRUE}
+qqnorm(inmobiliaria$precio, main = "Precio", col = "#2c3e50")
+qqline(inmobiliaria$precio)
+qqnorm(inmobiliaria$distancia, main = "Distancia", col = "#18bc9c")
+qqline(inmobiliaria$distancia)
+```
+```{r}
+
+print(shapiro.test(inmobiliaria$precio))
+
+print( shapiro.test(inmobiliaria$distancia))
+
+``` 
+Análisis de normalidad multivariada - Test de Henze Zirkler
+
+```{r}
+library(MVN)
+attach(inmobiliaria)
+precio_distancia=data.frame(precio,distancia)
+#Usamos Test Henze-Zirkler para evaluar normalidad multivariada (bivariada en este caso)
+respuesta_testHZ<-mvn(precio_distancia , mvnTest = "hz")
+respuesta_testHZ
+```
+```{r}
+respuesta_testHZ$multivariateNormality
+```
+
+Cálculo de correlación
+
+```{r, echo=TRUE}
+cor(inmobiliaria$precio, inmobiliaria$distancia, method= "pearson")
+```  
+```{r}
+cor.test(inmobiliaria$precio, inmobiliaria$distancia, method= "pearson")
+```
+Modelo Lineal
+
+```{r}
+modelo_distancia <- lm(precio ~ distancia, data = inmobiliaria)
+summary(modelo_distancia)
+```
+Análisis de la normalidad de los residuos - Test Shapiro Wilk
+
+```{r}
+inmobiliaria$prediccion <- modelo_distancia$fitted.values
+inmobiliaria$residuos <- modelo_distancia$residuals
+
+ggplot(data= inmobiliaria, aes(x=residuos)) + 
+  geom_histogram(aes(y=..density..)) + 
+  labs(title="Histograma de los residuos") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+
+```{r}
+qqnorm(modelo_distancia$residuals)
+qqline(modelo_distancia$residuals)
+```
+```{r}
+shapiro.test(modelo_distancia$residuals)
+```
+El p-value es menor a 0.05, por lo que se rechaza la hipótesis nula de normalidad de los residuos. \
+<br>
+
+#### (c)
+
+# Ejercicios ppt
+
+```{r}
+damascos <- read_excel("~/AUSTRAL/RegresionAvanzada/Archivos de datos para TP-20250407/Datos para TPs-20230606/damascos.xlsx")
+head(damascos,3)
+```
+```{r}
+
+mod_hojas <-lm (PESOF~LONGF, data=damascos)
+print(summary(mod_hojas))
+anova(mod_hojas)
+``` 
+
+```{r}
+
+predichos <- predict(object=mod_hojas, interval= "prediction", level=0.95)
+nuevos_datos <- data.frame (damascos, predichos)
+
+ggplot(nuevos_datos, aes(x= LONGF, y= PESOF)) +
+  geom_point(col= "#0B3B2E") +
+  geom_line(aes(y=lwr), color="#088A4B", linetype="dashed" ) +
+  geom_line(aes(y=upr), color="#088A4B" , linetype="dashed" ) +
+  geom_smooth(method=lm, formula=y ~ x, se=TRUE, level=0.95,
+              col="#088A4B", fill="pink2") +theme_light()
+```
+```{r}
+library(nortest)
+
+residuos= residuals(mod_hojas)
+residuos_df = data.frame(residuos = residuos)
+print( shapiro.test(residuos))
+print(ad.test (residuos))
+print(lillie.test(residuos))
+```
+```{r}
+library(car)
+qqPlot(residuos, pch=19, col="#2c3e50", main="QQ-plot de los residuos del modelo lineal",
+xlab= "Cuantiles teóricos",
+ylab= "Cuantiles muestrales")
+```
+```{r, echo= TRUE}
+#Visualización de los residuos
+
+residuos_df = data.frame(indice = 1:length(residuos), residuos = residuos)
+
+ggplot(residuos_df, aes(x = indice, y = residuos)) +
+  geom_point(color = "#2c3e50", size = 2) +
+  labs(title = "Gráfico de residuos",
+       x = "Índice",
+       y = "Residuo") +
+  theme_minimal()
+```
+```{r}
+library(lmtest)
+dwtest(mod_hojas, alternative= "two.sided", iterations=1000)
+```
+```{r}
+#homocedasticidad
+print( bptest(mod_hojas))
+
+print(gqtest(mod_hojas))
+```
+Los dos test de homocedasticidad arrojan que no se puede rechazar la hipótesis nula de homocedasticidad. \
+<br> 
+Validación gráfica de la homocedasticidad. 
+
+```{r}
+# se utiliza el gráfico de residuales vs variable predictora. Alerta: estructura de embudo
 
