@@ -860,4 +860,10 @@ Validación gráfica de la homocedasticidad.
 
 ```{r}
 # se utiliza el gráfico de residuales vs variable predictora. Alerta: estructura de embudo
+ajustados= mod_hojas$fitted.values
+databp= data.frame(ajustados, residuos)
 
+
+ggplot(databp, aes(x = ajustados, y = residuos)) +
+  geom_point(color = "#2c3e50", fill = "#013ADF", size = 4, shape = 21) 
+```
